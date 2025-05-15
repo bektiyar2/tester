@@ -1,10 +1,10 @@
 import telebot
 
 # Замените 'YOUR_TOKEN' на токен вашего бота
-bot = telebot.TeleBot('YOUR_TOKEN')
+bot = telebot.TeleBot('7705828331:AAES0Sp5mAFYQA11qinCmdZcraMgvRgI1nY')
 
 # Замените 'TO_CHAT_ID' на ID группы, в которую нужно пересылать сообщения
-TO_CHAT_ID = 'TO_CHAT_ID'
+TO_CHAT_ID = '-1002650951724'
 
 @bot.message_handler(content_types=['text'])
 def forward_message(message):
