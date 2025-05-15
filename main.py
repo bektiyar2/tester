@@ -11,4 +11,4 @@ def forward_message(message):
     bot.forward_message(TO_CHAT_ID, message.chat.id, message.message_id)
 
 if __name__ == '__main__':
-    bot.polling(none_stop=True)
+    bot.polling(none_stop=True, interval=0)
