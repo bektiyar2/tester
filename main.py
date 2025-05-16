@@ -10,7 +10,7 @@ bot = telebot.TeleBot('7705828331:AAES0Sp5mAFYQA11qinCmdZcraMgvRgI1nY')
 TO_CHAT_ID = '-1002650951724'
 
 # URL вашего веб-сервиса
-url = "https://your-service-url.onrender.com"
+url = "https://tester-nqi6.onrender.com"
 
 # Интервал между запросами в секундах (например, 10 минут)
 interval = 600
