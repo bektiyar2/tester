@@ -1,40 +1,30 @@
 import telebot
-import requests
-import threading
-import time
+import os
+from dotenv import load_dotenv
 
-# Замените 'YOUR_TOKEN' на токен вашего бота
-bot = telebot.TeleBot('7705828331:AAES0Sp5mAFYQA11qinCmdZcraMgvRgI1nY')
+# Загружаем переменные из файла .env
+load_dotenv()
 
-# Замените 'TO_CHAT_ID' на ID группы, в которую нужно пересылать сообщения
-TO_CHAT_ID = '-1002650951724'
+# Получаем значения из переменных окружения
+TOKEN = os.getenv('BOT_TOKEN')
+TO_CHAT_ID = os.getenv('CHAT_ID')
 
-# URL вашего веб-сервиса
-url = "https://tester-nqi6.onrender.com"
+# Проверка, что переменные загружены
+if not TOKEN or not TO_CHAT_ID:
+    print("Ошибка: Переменные BOT_TOKEN или CHAT_ID не найдены в файле .env")
+    exit()
 
-# Интервал между запросами в секундах (например, 10 минут)
-interval = 600
+bot = telebot.TeleBot(TOKEN)
 
-def keep_alive():
-    while True:
-        try:
-            response = requests.get(url)
-            if response.status_code == 200:
-                print("Сервис работает нормально.")
-            else:
-                print(f"Ошибка: {response.status_code}")
-        except requests.exceptions.RequestException as e:
-            print(f"Ошибка подключения: {e}")
-        
-        # Ожидание перед следующим запросом
-        time.sleep(interval)
-
-# Запуск keep_alive в отдельном потоке
-threading.Thread(target=keep_alive).start()
-
-@bot.message_handler(content_types=['text'])
+@bot.message_handler(content_types=['text', 'photo', 'video', 'document', 'audio', 'voice', 'sticker'])
 def forward_message(message):
-    bot.forward_message(TO_CHAT_ID, message.chat.id, message.message_id)
+    try:
+        # Пересылаем сообщение в указанный чат
+        bot.forward_message(TO_CHAT_ID, message.chat.id, message.message_id)
+        print(f"Сообщение от {message.from_user.first_name} (ID: {message.from_user.id}) переслано.")
+    except Exception as e:
+        print(f"Ошибка при пересылке: {e}")
 
 if __name__ == '__main__':
-    bot.polling(none_stop=True, interval=0)
+    print("Бот запущен и использует настройки из .env...")
+    bot.infinity_polling()
