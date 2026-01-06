@@ -1,4 +1,2 @@
-telebot
-requests
-threading
-time
+pyTelegramBotAPI
+python-dotenv
